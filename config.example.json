@@ -1,0 +1,8 @@
+{
+    "BOTOWNERS": [],
+    "COOLDOWN": 3000,
+    "DEFAULT_SETTINGS": {
+        "prefix": "u!"
+    },
+    "TOKEN": ""
+}

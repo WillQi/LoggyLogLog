@@ -1,0 +1,25 @@
+{
+  "name": "loggyloglog",
+  "version": "1.0.0",
+  "description": "A logging bot.",
+  "main": "./build/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "tsc",
+    "dev": "nodemon .",
+    "run": "nodemon ./build/app.js"
+  },
+  "author": "William Qi",
+  "private": true,
+  "dependencies": {
+    "better-sqlite-pool": "^0.1.2",
+    "discord.js": "^11.4.2",
+    "enmap": "^4.3.3"
+  },
+  "devDependencies": {
+    "@types/node": "^10.12.2",
+    "nodemon": "^1.18.5",
+    "ts-node": "^7.0.1",
+    "typescript": "^3.1.3"
+  }
+}

@@ -1,0 +1,27 @@
+{
+    "compilerOptions": {
+        "declaration": true,
+        "moduleResolution": "node",
+        "module": "commonjs",
+        "noImplicitReturns" : true,
+        "noImplicitAny": true,
+        "noUnusedLocals": true,
+        "sourceMap": true,
+        "outDir": "./build",
+        "strict": true,
+        "target": "es6",
+        "lib": [
+            "es2017",
+            "dom"
+        ],
+        "resolveJsonModule": true,
+        "esModuleInterop": true
+    },
+    "exclude": [
+        "node_modules"
+    ],
+    "include": [
+        "app.ts",
+        "./src/**/*"
+    ]
+}
