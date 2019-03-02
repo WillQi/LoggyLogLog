@@ -4,7 +4,7 @@ import { Util } from "discord.js";
 module.exports = (client : LLLClient) => {
 
     client.on("messageDelete", async message => {
-        if (message.channel.type === "text") {
+        if (message.channel.type === "text" && !message.author.bot) {
             const SM = client.exports.get("settings.manager");
             if (SM.getSetting("messageDelete", message.guild)) {
                 const channel = SM.getLogChannelForGuild(message.guild);
