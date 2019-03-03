@@ -4,15 +4,16 @@ import { Util } from "discord.js";
 module.exports = (client : LLLClient) => {
 
     client.on("messageDelete", async message => {
-        if (message.channel.type === "text" && !message.author.bot) {
+        if (message.channel.type === "text" && !message.author.bot && !message.content.split(" ")[0].match(/play/i)) {
             const SM = client.exports.get("settings.manager");
             if (SM.getSetting("messageDelete", message.guild)) {
                 const channel = SM.getLogChannelForGuild(message.guild);
                 if (channel && (channel.permissionsFor(client.user)!).has(["SEND_MESSAGES", "EMBED_LINKS"])) {
                     try {
                         await channel.send(
-                            client.embeds.info(`Content: \`${Util.escapeMarkdown(message.content)}\`\n\nChannel: ${message.channel}\n\nUser: ${message.author}`)
-                                .setTitle(`Message Deleted | ${message.author.tag}`)
+                            client.embeds.info(`A message by **${Util.escapeMarkdown(message.author.tag)}** was deleted in ${message.channel}.\nContent: \`${Util.escapeMarkdown(message.content)}\``)
+                                .setTitle("Message Deleted")
+                                .setAuthor(message.author.tag, message.author.avatarURL)
                                 .setTimestamp()
                         );
                     } catch (_) {}
@@ -22,7 +23,7 @@ module.exports = (client : LLLClient) => {
     });
 
     client.on("messageDeleteBulk", async messages => {
-        const SM = client.exports.get('settings.manager');
+        const SM = client.exports.get("settings.manager");
         const guild = messages.first().guild;
         const channel = SM.getLogChannelForGuild(guild);
         if (SM.getSetting("messageDelete", guild)) {
@@ -30,11 +31,33 @@ module.exports = (client : LLLClient) => {
                 try {
                     await channel.send(
                         client.embeds.info(`${messages.size} messages were deleted in ${messages.first().channel}.`)
-                        .setTitle("Purge")
+                        .setTitle("Message Purge")
                         .setColor(0xff0000)
+                        .setTimestamp()
                     );
                 } catch (_) {}
             }
+        }
+    });
+
+    client.on("messageUpdate", async (oldMessage, newMessage) => {
+        const SM = client.exports.get("settings.manager");
+        if (newMessage.channel.type === "text" && oldMessage.content !== newMessage.content) {
+            const guild = newMessage.guild;
+            if (SM.getSetting("messageEdit", guild)) {
+                const channel = SM.getLogChannelForGuild(guild);
+                if (channel && (channel.permissionsFor(client.user)!).has(["SEND_MESSAGES", "EMBED_LINKS"])) {
+                    try {
+                        await channel.send(
+                            client.embeds.info(`**Before**: \`${Util.escapeMarkdown(oldMessage.content)}\`\n\n**After**: \`${Util.escapeMarkdown(newMessage.content)}\``)
+                            .setTitle(`Message Edited`)
+                            .setAuthor(newMessage.author.tag, newMessage.author.avatarURL)
+                            .setTimestamp()
+                        );
+                    } catch (_) {console.log(_)}
+                }
+            }
+
         }
     });
 };

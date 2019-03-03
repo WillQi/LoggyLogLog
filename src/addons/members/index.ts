@@ -11,7 +11,7 @@ module.exports = (client : LLLClient) => {
                     await channel.send(
                         client.embeds.info(`**${Util.escapeMarkdown(member.user.tag)}** has joined the server.`)
                         .setTimestamp()
-                        .setTitle(`Member Join | ${member.user.tag}`)
+                        .setTitle("Member Joined")
                         .setColor(0x00ff00)
                         .setAuthor(member.user.tag, member.user.avatarURL)
                     );
@@ -29,7 +29,7 @@ module.exports = (client : LLLClient) => {
                     await channel.send(
                         client.embeds.info(`**${Util.escapeMarkdown(member.user.tag)}** has left the server.`)
                         .setTimestamp()
-                        .setTitle(`Member Left | ${member.user.tag}`)
+                        .setTitle("Member Left")
                         .setColor(0xff0000)
                         .setAuthor(member.user.tag, member.user.avatarURL)
                     );
