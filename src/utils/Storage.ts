@@ -15,5 +15,11 @@ export interface StorageKeys {
             ignoreUsers: string[],
             channel?: string
         }
+    },
+    "money": {
+        [id : string]: number
+    },
+    "guildMoney": {
+        [id : string]: number
     }
 };

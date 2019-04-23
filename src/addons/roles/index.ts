@@ -1,5 +1,5 @@
 import { LLLClient } from "../../LLLClient";
-import { GuildAuditLogs, Util } from "discord.js";
+import { GuildAuditLogs, Util  } from "discord.js";
 
 module.exports = (client : LLLClient) => {
 
@@ -9,7 +9,7 @@ module.exports = (client : LLLClient) => {
             const channel = SM.getLogChannelForGuild(role.guild);
             if (channel && (channel.permissionsFor(client.user)!).has(["SEND_MESSAGES", "EMBED_LINKS"])) {
                 const member = await role.guild.fetchMember(client.user);
-                if (member.hasPermission("VIEW_AUDIT_LOG")) {
+                if (member.hasPermission("VIEW_AUDIT_LOG") && !role.managed) {
                     const log = ((await role.guild.fetchAuditLogs({
                         type: GuildAuditLogs.Actions.ROLE_CREATE,
                         limit: 1
@@ -19,18 +19,28 @@ module.exports = (client : LLLClient) => {
                         await channel.send(
                             client.embeds.custom("A role was created.", 0xff8800)
                             .setTitle("Role Created")
-                            .setAuthor(log.executor.tag, log.executor.avatarURL)
+                            .setAuthor(log.executor.tag, log.executor.avatarURL || log.executor.defaultAvatarURL)
                             .setTimestamp()
                         );
                     } catch (_) {}
                 } else {
-                    try {
-                        await channel.send(
-                            client.embeds.custom("A role was created.", 0xff8800)
-                            .setTitle("Role Created")
-                            .setTimestamp()
-                        );
-                    } catch (_) {}
+                    if (role.managed) {
+                        try {
+                            await channel.send(
+                                client.embeds.custom("A role was created.", 0xff8800)
+                                .setTitle(`Role Created | ${role.name}`)
+                                .setTimestamp()
+                            );
+                        } catch (_) {}
+                    } else {
+                        try {
+                            await channel.send(
+                                client.embeds.custom("A role was created.", 0xff8800)
+                                .setTitle("Role Created")
+                                .setTimestamp()
+                            );
+                        } catch (_) {}
+                    }
                 }
             }
         }
@@ -52,7 +62,7 @@ module.exports = (client : LLLClient) => {
                         await channel.send(
                             client.embeds.custom(`**${Util.escapeMarkdown(role.name)}** was deleted.`, 0xff0000)
                             .setTitle("Role Deleted")
-                            .setAuthor(log.executor.tag, log.executor.avatarURL)
+                            .setAuthor(log.executor.tag, log.executor.avatarURL || log.executor.defaultAvatarURL)
                             .setTimestamp()
                         );
                     } catch (_) {}
@@ -85,7 +95,7 @@ module.exports = (client : LLLClient) => {
                                 type: GuildAuditLogs.Actions.ROLE_UPDATE,
                                 limit: 1
                             })).entries).first();
-                            embed.setAuthor(log.executor.tag, log.executor.avatarURL);
+                            embed.setAuthor(log.executor.tag, log.executor.avatarURL || log.executor.defaultAvatarURL);
                     }
 
                     if (newRole.name !== oldRole.name) {

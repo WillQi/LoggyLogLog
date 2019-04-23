@@ -2,7 +2,8 @@ import { ClientOptions, Channel, Guild, User, GuildMember, Collection, Snowflake
 
 export enum CommandCategories {
     GENERAL_COMMANDS = "General Commands",
-    CONFIGURATION_COMMANDS = "Configuration Commands"
+    CONFIGURATION_COMMANDS = "Configuration Commands",
+    ECONOMY_COMMANDS = "Economy Commands"
 };
 
 export interface DefaultSettings {

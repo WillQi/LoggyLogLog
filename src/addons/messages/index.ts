@@ -11,9 +11,9 @@ module.exports = (client : LLLClient) => {
                 if (channel && (channel.permissionsFor(client.user)!).has(["SEND_MESSAGES", "EMBED_LINKS"])) {
                     try {
                         await channel.send(
-                            client.embeds.info(`A message by **${Util.escapeMarkdown(message.author.tag)}** was deleted in ${message.channel}.\nContent: \`${Util.escapeMarkdown(message.content)}\``)
+                            client.embeds.info(`A message by **${Util.escapeMarkdown(message.author.tag)}** was deleted in ${message.channel}.\n**Content**: \`${Util.escapeMarkdown(message.content)}\``)
                                 .setTitle("Message Deleted")
-                                .setAuthor(message.author.tag, message.author.avatarURL)
+                                .setAuthor(message.author.tag, message.author.avatarURL || message.author.defaultAvatarURL)
                                 .setTimestamp()
                         );
                     } catch (_) {}
@@ -42,7 +42,7 @@ module.exports = (client : LLLClient) => {
 
     client.on("messageUpdate", async (oldMessage, newMessage) => {
         const SM = client.exports.get("settings.manager");
-        if (newMessage.channel.type === "text" && oldMessage.content !== newMessage.content) {
+        if (newMessage.channel.type === "text" && oldMessage.content !== newMessage.content && !newMessage.author.bot) {
             const guild = newMessage.guild;
             if (SM.getSetting("messageEdit", guild)) {
                 const channel = SM.getLogChannelForGuild(guild);
@@ -51,7 +51,7 @@ module.exports = (client : LLLClient) => {
                         await channel.send(
                             client.embeds.info(`**Before**: \`${Util.escapeMarkdown(oldMessage.content)}\`\n\n**After**: \`${Util.escapeMarkdown(newMessage.content)}\``)
                             .setTitle(`Message Edited`)
-                            .setAuthor(newMessage.author.tag, newMessage.author.avatarURL)
+                            .setAuthor(newMessage.author.tag, newMessage.author.avatarURL || newMessage.author.defaultAvatarURL)
                             .setTimestamp()
                         );
                     } catch (_) {console.log(_)}

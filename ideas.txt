@@ -1,0 +1,17 @@
+USING GUILD MONEY YOU CAN...
+===========================
+- Compact logging mode
+- More useful role logging
+- Advanced logging mode
+- Record message session
+- Record audio session
+- View purged messages
+- View image attachments sent (maybe add this to the bot )
+
+USING USER MONEY YOU CAN...
+===========================
+- Purchase guild money
+- Buy yourself a CIA office.
+- stuff stuff purchase stuff for your spy office or smth
+
+TODO: Make it so if you edit a message edit it deletes the old edit message
