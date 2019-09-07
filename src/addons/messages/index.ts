@@ -49,7 +49,7 @@ module.exports = (client : LLLClient) => {
                 if (channel && (channel.permissionsFor(client.user)!).has(["SEND_MESSAGES", "EMBED_LINKS"])) {
                     try {
                         await channel.send(
-                            client.embeds.info(`**Before**: \`${Util.escapeMarkdown(oldMessage.content)}\`\n\n**After**: \`${Util.escapeMarkdown(newMessage.content)}\``)
+                            client.embeds.info(`A message was edited in ${oldMessage.channel}\n**Before**: \`${Util.escapeMarkdown(oldMessage.content)}\`\n\n**After**: \`${Util.escapeMarkdown(newMessage.content)}\``)
                             .setTitle(`Message Edited`)
                             .setAuthor(newMessage.author.tag, newMessage.author.avatarURL || newMessage.author.defaultAvatarURL)
                             .setTimestamp()

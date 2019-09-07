@@ -73,7 +73,7 @@ module.exports = (client : LLLClient) => {
                     } else {
                         try {
                             await logChannel.send(
-                                client.embeds.custom(`The channel ${(channel as GuildChannel).name} was deleted.`, 0xff0000)
+                                client.embeds.custom(`The channel #${(channel as GuildChannel).name} was deleted.`, 0xff0000)
                                     .setTitle("Channel Deleted")
                                     .setTimestamp()
                             );
